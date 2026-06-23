@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 type DecorativeObjectProps = {
   variant?: "sphere" | "ring" | "cube" | "capsule";
   className?: string;
@@ -9,6 +11,10 @@ const variants = {
   cube: "metal-cube",
   capsule: "metal-capsule"
 };
+
+function revealStyle(order: number): CSSProperties {
+  return { "--reveal-delay": `${80 + order * 72}ms` } as CSSProperties;
+}
 
 export function DecorativeObject({
   variant = "sphere",
@@ -96,8 +102,8 @@ export function MobileHeroBadges() {
       {items.map((item, index) => (
         <div
           key={item.key}
-          className="mobile-hero-badge-row automation-icon-node object-drift"
-          style={{ animationDelay: `${index * 0.55}s` }}
+          className="mobile-hero-badge-row automation-icon-node object-drift scroll-reveal-card"
+          style={{ animationDelay: `${index * 0.55}s`, ...revealStyle(index) }}
         >
           <span className="automation-icon-core">{item.icon}</span>
           <span className="mobile-hero-badge-copy">

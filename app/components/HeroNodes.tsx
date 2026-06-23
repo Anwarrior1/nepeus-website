@@ -30,6 +30,7 @@ export function HeroNodes() {
     let width = 0;
     let height = 0;
     let pixelRatio = 1;
+    let isCompact = false;
     let points: NodePoint[] = [];
     const pointer = { x: 0, y: 0, active: false };
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -39,16 +40,17 @@ export function HeroNodes() {
       width = bounds.width;
       height = bounds.height;
       const area = width * height;
-      pixelRatio = Math.min(window.devicePixelRatio || 1, area < 250000 ? 1.25 : 2);
+      isCompact = area < 250000;
+      pixelRatio = Math.min(window.devicePixelRatio || 1, isCompact ? 1.5 : 2);
 
       canvas.width = Math.floor(width * pixelRatio);
       canvas.height = Math.floor(height * pixelRatio);
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
 
       // Fewer points on small screens for smoother mobile performance.
-      const density = area < 250000 ? 18000 : 13000;
-      const minCount = area < 250000 ? 28 : 42;
-      const maxCount = area < 250000 ? 64 : 96;
+      const density = isCompact ? 18000 : 13000;
+      const minCount = isCompact ? 26 : 42;
+      const maxCount = isCompact ? 60 : 96;
       const count = clamp(Math.floor(area / density), minCount, maxCount);
       points = Array.from({ length: count }, () => {
         const x = Math.random() * width;
@@ -61,7 +63,7 @@ export function HeroNodes() {
           homeY: y,
           vx: (Math.random() - 0.5) * 0.18,
           vy: (Math.random() - 0.5) * 0.18,
-          radius: 1.3 + Math.random() * 2.8,
+          radius: isCompact ? 1.8 + Math.random() * 3 : 1.3 + Math.random() * 2.8,
           depth: 0.45 + Math.random() * 0.75
         };
       });
@@ -140,7 +142,7 @@ export function HeroNodes() {
               Math.hypot((a.x + b.x) / 2 - pointer.x, (a.y + b.y) / 2 - pointer.y) < 230
                 ? 0.12
                 : 0;
-            const alpha = (1 - distance / maxDistance) * 0.17 + pointerBoost;
+            const alpha = (1 - distance / maxDistance) * (isCompact ? 0.26 : 0.17) + pointerBoost;
             context.strokeStyle = `rgba(8,8,10,${alpha})`;
             context.lineWidth = 1;
             context.beginPath();
@@ -158,8 +160,8 @@ export function HeroNodes() {
         const active = pointerDistance < 190;
 
         context.beginPath();
-        context.fillStyle = active ? "rgba(0,0,0,0.92)" : "rgba(0,0,0,0.44)";
-        context.arc(point.x, point.y, active ? point.radius + 1.3 : point.radius, 0, Math.PI * 2);
+        context.fillStyle = active ? "rgba(0,0,0,0.94)" : (isCompact ? "rgba(0,0,0,0.58)" : "rgba(0,0,0,0.44)");
+        context.arc(point.x, point.y, active ? point.radius + 1.4 : point.radius, 0, Math.PI * 2);
         context.fill();
 
         if (active) {

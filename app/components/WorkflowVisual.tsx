@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 
 const agentFlow = [
   {
@@ -32,6 +32,10 @@ const channels = [
   { name: "Website", icon: <WebsiteIcon /> }
 ];
 
+function revealStyle(order: number): CSSProperties {
+  return { "--reveal-delay": `${80 + order * 72}ms` } as CSSProperties;
+}
+
 export function AgentWorkflow() {
   const [activeChannel, setActiveChannel] = useState(channels[0].name);
   const [activeStep, setActiveStep] = useState(0);
@@ -41,14 +45,15 @@ export function AgentWorkflow() {
     <div className="silver-card relative overflow-hidden rounded-[2rem] p-5 sm:p-7">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-black/30 to-transparent" />
       <div className="flex flex-wrap gap-2" role="group" aria-label="Choose customer channel">
-        {channels.map((channel) => (
+        {channels.map((channel, index) => (
           <button
             key={channel.name}
             type="button"
             onClick={() => setActiveChannel(channel.name)}
             className={`workflow-filter glass-chip inline-flex min-h-[2.75rem] items-center gap-2 px-3 py-2 text-xs font-semibold transition-all duration-200 ${
               activeChannel === channel.name ? "is-active" : ""
-            }`}
+            } scroll-reveal-card`}
+            style={revealStyle(index)}
             aria-pressed={activeChannel === channel.name}
           >
             <span className="h-4 w-4">{channel.icon}</span>
@@ -57,7 +62,7 @@ export function AgentWorkflow() {
         ))}
       </div>
 
-      <div className="my-7 flex items-center gap-4">
+      <div className="my-7 flex items-center gap-4 scroll-reveal-card" style={revealStyle(channels.length)}>
         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-black/20 to-black/20" />
         <div className="flex items-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white shadow-[0_16px_40px_rgba(10,10,12,0.22)]">
           <SparkleIcon className="h-4 w-4" />
@@ -68,7 +73,8 @@ export function AgentWorkflow() {
 
       <div
         key={`${activeChannel}-${activeStep}`}
-        className="mb-4 rounded-2xl border border-white/80 bg-white/50 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.84),0_14px_36px_rgba(47,56,68,0.08)] backdrop-blur-xl transition-all duration-300 animate-fade-in"
+        className="mb-4 rounded-2xl border border-white/80 bg-white/50 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.84),0_14px_36px_rgba(47,56,68,0.08)] backdrop-blur-xl transition-all duration-300 animate-fade-in scroll-reveal-card"
+        style={revealStyle(channels.length + 1)}
       >
         <p className="text-xs font-semibold uppercase tracking-wider text-steel">{activeChannel} workflow</p>
         <p className="mt-2 text-base font-semibold text-ink">{selectedStep.title}</p>
@@ -83,7 +89,8 @@ export function AgentWorkflow() {
             onClick={() => setActiveStep(index)}
             className={`glass-card interactive-card min-h-[4.5rem] rounded-2xl p-4 text-left transition-all duration-200 ${
               activeStep === index ? "is-selected" : ""
-            }`}
+            } scroll-reveal-card`}
+            style={revealStyle(channels.length + 2 + index)}
             aria-pressed={activeStep === index}
           >
             <p className="text-xs font-semibold uppercase tracking-wider text-steel">

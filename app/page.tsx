@@ -301,9 +301,7 @@ function AgentFeatureSection() {
             ))}
           </div>
         </div>
-        <div className="reveal-item" style={revealStyle(10)}>
-          <AgentWorkflow />
-        </div>
+        <AgentWorkflow />
       </div>
     </section>
   );
@@ -494,9 +492,9 @@ function ContactSection() {
 
 function Footer() {
   return (
-    <footer className="site-footer py-12">
-      <div className="section-shell flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-        <div className="flex items-center gap-3">
+    <footer className="site-footer scroll-reveal-section py-12">
+      <div className="section-shell section-reveal-content flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+        <div className="reveal-item flex items-center gap-3" style={revealStyle(0)}>
           <span className="glass-card flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl">
             <img src="/nepeus-logo.png" alt="" className="h-10 w-10 object-cover" />
           </span>
@@ -505,13 +503,13 @@ function Footer() {
             <p className="text-sm text-steel">AI Agents & Automations for Smarter Businesses.</p>
           </div>
         </div>
-        <div className="flex flex-wrap gap-6 text-sm font-medium text-steel">
+        <div className="reveal-item flex flex-wrap gap-6 text-sm font-medium text-steel" style={revealStyle(1)}>
           <a href="#services" className="transition hover:text-ink">Services</a>
           <a href="#use-cases" className="transition hover:text-ink">Use Cases</a>
           <a href="#process" className="transition hover:text-ink">Process</a>
           <a href="#contact" className="transition hover:text-ink">Contact</a>
         </div>
-        <p className="text-sm text-steel">&copy; 2026 Nepeus. All rights reserved.</p>
+        <p className="reveal-item text-sm text-steel" style={revealStyle(2)}>&copy; 2026 Nepeus. All rights reserved.</p>
       </div>
     </footer>
   );

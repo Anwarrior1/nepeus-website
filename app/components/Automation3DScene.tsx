@@ -138,6 +138,7 @@ function createCoreLabelSprite() {
 
 export function Automation3DScene() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const compactRef = useRef(false);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -314,13 +315,21 @@ export function Automation3DScene() {
       width = Math.max(rect.width, 1);
       height = Math.max(rect.height, 1);
       const isCompact = width < 700;
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isCompact ? 1.25 : 1.8));
+      compactRef.current = isCompact;
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isCompact ? 2 : 1.8));
       renderer.setSize(width, height, false);
       camera.aspect = width / height;
-      camera.position.set(0, isCompact ? 0.35 : 0.25, isCompact ? 12.6 : 9.8);
-      root.position.y = isCompact ? 1.35 : 1.05;
-      root.scale.setScalar(isCompact ? 0.54 : 0.82);
+      camera.position.set(0, isCompact ? 0.25 : 0.25, isCompact ? 11.8 : 9.8);
+      root.position.y = isCompact ? 1.05 : 1.05;
+      root.scale.setScalar(isCompact ? 0.58 : 0.82);
       camera.updateProjectionMatrix();
+
+      const labelScale = isCompact ? 1.9 : 1.55;
+      nodes.forEach((node) => {
+        node.label.scale.setScalar(nodeConfigs[nodes.indexOf(node)].scale * labelScale);
+      });
+      coreLabel.scale.setScalar(isCompact ? 1.5 : 1.2);
+      coreLabel.material.opacity = isCompact ? 0.96 : 0.88;
     };
 
     const handlePointerMove = (event: PointerEvent) => {
@@ -384,7 +393,7 @@ export function Automation3DScene() {
         node.group.scale.setScalar(orbitScale);
         node.sphere.rotation.y = elapsed * (0.22 + index * 0.02);
         node.shell.rotation.y = -elapsed * 0.12;
-        node.label.material.opacity = width < 380 ? 0.78 : 0.88 + depth * 0.1;
+        node.label.material.opacity = compactRef.current ? 0.92 : 0.88 + depth * 0.1;
       });
 
       pulses.forEach((pulse) => {

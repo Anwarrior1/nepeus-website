@@ -23,7 +23,8 @@ export function ContactForm() {
         <div className="reveal-item mt-10 grid gap-4 sm:grid-cols-2" style={revealStyle(4)}>
           <a
             href="mailto:nepeusai@gmail.com"
-            className="group flex items-center gap-4 rounded-2xl border border-white/12 bg-white/[0.06] p-4 backdrop-blur-xl transition-all duration-300 hover:border-white/25 hover:bg-white/[0.10]"
+            className="group flex items-center gap-4 rounded-2xl border border-white/12 bg-white/[0.06] p-4 backdrop-blur-xl transition-all duration-300 hover:border-white/25 hover:bg-white/[0.10] scroll-reveal-card"
+            style={revealStyle(5)}
           >
             <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-white transition-transform duration-300 group-hover:scale-105">
               <MailIcon className="h-5 w-5" />
@@ -38,7 +39,8 @@ export function ContactForm() {
             href="https://t.me/nepeusai"
             target="_blank"
             rel="noreferrer"
-            className="group flex items-center gap-4 rounded-2xl border border-white/12 bg-white/[0.06] p-4 backdrop-blur-xl transition-all duration-300 hover:border-white/25 hover:bg-white/[0.10]"
+            className="group flex items-center gap-4 rounded-2xl border border-white/12 bg-white/[0.06] p-4 backdrop-blur-xl transition-all duration-300 hover:border-white/25 hover:bg-white/[0.10] scroll-reveal-card"
+            style={revealStyle(6)}
           >
             <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-white transition-transform duration-300 group-hover:scale-105">
               <TelegramIcon className="h-5 w-5" />
@@ -50,10 +52,11 @@ export function ContactForm() {
           </a>
         </div>
 
-        <div className="reveal-item mt-8 flex flex-col gap-4 sm:flex-row" style={revealStyle(5)}>
+        <div className="reveal-item mt-8 flex flex-col gap-4 sm:flex-row" style={revealStyle(7)}>
           <a
             href="mailto:nepeusai@gmail.com"
-            className="secondary-button w-full justify-center border-white/15 bg-white/10 text-white hover:bg-white/15 hover:text-white sm:w-auto"
+            className="secondary-button w-full justify-center border-white/15 bg-white/10 text-white hover:bg-white/15 hover:text-white sm:w-auto scroll-reveal-card"
+            style={revealStyle(8)}
           >
             Send an Email
           </a>
@@ -61,7 +64,8 @@ export function ContactForm() {
             href="https://t.me/nepeusai"
             target="_blank"
             rel="noreferrer"
-            className="secondary-button w-full justify-center border-white/15 bg-white/10 text-white hover:bg-white/15 hover:text-white sm:w-auto"
+            className="secondary-button w-full justify-center border-white/15 bg-white/10 text-white hover:bg-white/15 hover:text-white sm:w-auto scroll-reveal-card"
+            style={revealStyle(9)}
           >
             Chat on Telegram
           </a>

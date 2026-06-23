@@ -7,8 +7,11 @@ export function ScrollReveal() {
     const sections = Array.from(
       document.querySelectorAll<HTMLElement>(".scroll-reveal-section")
     );
+    const items = Array.from(
+      document.querySelectorAll<HTMLElement>(".reveal-item, .scroll-reveal-card")
+    );
 
-    if (!sections.length) {
+    if (!sections.length && !items.length) {
       return;
     }
 
@@ -21,13 +24,31 @@ export function ScrollReveal() {
     if (prefersReducedMotion) {
       document.body.classList.add("scroll-reveal-reduced");
       sections.forEach((section) => section.classList.add("is-visible"));
+      items.forEach((item) => item.classList.add("is-revealed"));
 
       return () => {
         document.body.classList.remove("scroll-reveal-ready", "scroll-reveal-reduced");
       };
     }
 
-    const observer = new IntersectionObserver(
+    const itemObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          entry.target.classList.add("is-revealed");
+          itemObserver.unobserve(entry.target);
+        });
+      },
+      {
+        rootMargin: "0px 0px -6% 0px",
+        threshold: 0.08
+      }
+    );
+
+    const sectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) {
@@ -35,7 +56,7 @@ export function ScrollReveal() {
           }
 
           entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
+          sectionObserver.unobserve(entry.target);
         });
       },
       {
@@ -45,12 +66,14 @@ export function ScrollReveal() {
     );
 
     const frame = window.requestAnimationFrame(() => {
-      sections.forEach((section) => observer.observe(section));
+      sections.forEach((section) => sectionObserver.observe(section));
+      items.forEach((item) => itemObserver.observe(item));
     });
 
     return () => {
       window.cancelAnimationFrame(frame);
-      observer.disconnect();
+      itemObserver.disconnect();
+      sectionObserver.disconnect();
       document.body.classList.remove("scroll-reveal-ready", "scroll-reveal-reduced");
     };
   }, []);
